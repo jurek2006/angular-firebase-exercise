@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-interface Person {
-  firstName: string;
-  lastName: string;
-}
+import { Person } from '../person';
 
 @Component({
   selector: 'app-names',
@@ -14,7 +10,7 @@ interface Person {
   styleUrls: ['./names.component.css']
 })
 export class NamesComponent implements OnInit {
-  people: Observable<any[]>;
+  people: Observable<Person[]>;
 
   constructor(private db: AngularFirestore) {}
 
@@ -27,7 +23,8 @@ export class NamesComponent implements OnInit {
           return docArray.map(doc => {
             return {
               id: doc.payload.doc.id,
-              ...doc.payload.doc.data()
+              firstName: doc.payload.doc.data()['firstName'],
+              lastName: doc.payload.doc.data()['lastName']
             };
           });
         })
