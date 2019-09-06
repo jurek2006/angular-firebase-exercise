@@ -13,7 +13,7 @@ export class GetFromFirestoreService {
   peopleChanged = new Subject<Person[]>();
 
   public fetchPeople() {
-    this.db
+    return this.db
       .collection('people')
       .snapshotChanges()
       .pipe(
@@ -26,10 +26,6 @@ export class GetFromFirestoreService {
             };
           });
         })
-      )
-      .subscribe((people: Person[]) => {
-        this.people = people;
-        this.peopleChanged.next([...this.people]);
-      });
+      );
   }
 }
